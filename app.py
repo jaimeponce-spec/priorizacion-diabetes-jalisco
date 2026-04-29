@@ -154,6 +154,11 @@ with tab1:
         else:            return 'Más de 40,000'
     df['rango'] = df['pob_2024'].apply(rango_pob)
 
+    filtro_dist = st.radio(
+        "Filtrar por distancia a Guadalajara:",
+        ['Sin filtro', 'Menos de 150 km', 'Más de 150 km'],
+        horizontal=True
+    )
     col_filtro, col_orden = st.columns([3,2])
     with col_filtro:
         rango = st.radio(
