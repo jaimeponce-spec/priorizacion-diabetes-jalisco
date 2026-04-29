@@ -321,17 +321,34 @@ with tab2:
     lons = [coords[m][1] for m in df['municipio']]
     sizes = [16 if m == municipio else 8 for m in df['municipio']]
 
+    df_otros = df[df['municipio'] != municipio]
+    df_sel   = df[df['municipio'] == municipio]
+
     fig_mapa = go.Figure()
     fig_mapa.add_trace(go.Scattermapbox(
-        lat=lats, lon=lons, mode='markers',
-        marker=dict(size=sizes,
-            color=df['indice_calc'],
+        lat=[coords[m][0] for m in df_otros['municipio']],
+        lon=[coords[m][1] for m in df_otros['municipio']],
+        mode='markers',
+        marker=dict(size=8,
+            color=df_otros['indice_calc'],
             colorscale='RdYlGn_r',
             showscale=True,
             colorbar=dict(title='Índice')),
-        text=df['municipio'],
-        customdata=df[['indice_calc','tasa_anual_dm2','avpp_prom']].values,
+        text=df_otros['municipio'],
+        customdata=df_otros[['indice_calc','tasa_anual_dm2','avpp_prom']].values,
         hovertemplate='<b>%{text}</b><br>Índice: %{customdata[0]:.4f}<br>Tasa: %{customdata[1]:.1f}<br>AVPP: %{customdata[2]:.1f}<extra></extra>',
+        name='Municipios'
+    ))
+    fig_mapa.add_trace(go.Scattermapbox(
+        lat=[coords[df_sel.iloc[0]['municipio']][0]],
+        lon=[coords[df_sel.iloc[0]['municipio']][1]],
+        mode='markers+text',
+        marker=dict(size=22, color='#FF0000',),
+        text=[municipio],
+        textposition='top right',
+        textfont=dict(size=13, color='#FF0000', family='Calibri'),
+        hovertemplate=f'<b>{municipio}</b><br>Índice: {df_sel.iloc[0]["indice_calc"]:.4f}<extra></extra>',
+        name=municipio
     ))
     fig_mapa.update_layout(
         mapbox=dict(style='carto-positron',
