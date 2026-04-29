@@ -150,7 +150,8 @@ with tab1:
     def rango_pob(p):
         if p <= 10000:   return '0 — 10,000'
         elif p <= 20000: return '10,001 — 20,000'
-        elif p <= 40000: return '20,001 — 40,000'
+        elif p <= 30000: return '20,001 — 30,000'
+        elif p <= 40000: return '30,001 — 40,000'
         else:            return 'Más de 40,000'
     df['rango'] = df['pob_2024'].apply(rango_pob)
 
