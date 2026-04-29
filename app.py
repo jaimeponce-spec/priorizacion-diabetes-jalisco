@@ -310,17 +310,9 @@ with tab2:
     col_f.metric("Muertes DM2", f"{int(row['dm2_cualquier']):,}")
 
     # Mapa
-    np.random.seed(42)
-    coords = {
-        r['municipio']: (
-            20.6 + np.random.uniform(-1.8, 1.8),
-            -103.5 + np.random.uniform(-2.2, 2.2)
-        ) for _, r in df.iterrows()
-    }
-    lats = [coords[m][0] for m in df['municipio']]
-    lons = [coords[m][1] for m in df['municipio']]
+    lats = df['latitud'].tolist()
+    lons = df['longitud'].tolist()
     sizes = [16 if m == municipio else 8 for m in df['municipio']]
-
     df_otros = df[df['municipio'] != municipio]
     df_sel   = df[df['municipio'] == municipio]
 
