@@ -180,33 +180,37 @@ with tab1:
 
     # Tabla
     fig_t = go.Figure(data=[go.Table(
-        columnwidth=[25,150,80,80,75,75,65,65,65,80],
-        header=dict(
-            values=['#','Municipio','Pob 2024','Total muertes',
-                    '1ª causa','Contribuyente','% Hombre','% Mujer',
-                    'AVPP prom','Índice'],
-            fill_color='#1F4E79',
-            font=dict(color='white',size=11,family='Calibri'),
-            align='center', height=32),
-        cells=dict(
-            values=[
-                list(range(1,len(top)+1)),
-                top['municipio'],
-                top['pob_2024'].apply(lambda x: f"{int(x):,}"),
-                top['dm2_cualquier'].apply(lambda x: f"{int(x):,}"),
-                top['dm2_basica'].apply(lambda x: f"{int(x):,}"),
-                top['dm2_contribuyente'].apply(lambda x: f"{int(x):,}"),
-                top['pct_hombre'].apply(lambda x: f"{x:.0f}%"),
-                top['pct_mujer'].apply(lambda x: f"{x:.0f}%"),
-                top['avpp_prom'].apply(lambda x: f"{x:.1f}"),
-                top['indice_calc'].apply(lambda x: f"{x:.4f}"),
-            ],
-            fill_color=[['#F0F7FF' if i%2==0 else 'white'
-                         for i in range(len(top))]]*10,
-            font=dict(size=11,family='Calibri'),
-            align=['center','left']+['center']*8,
-            height=26)
-    )])
+    # Agrega un ancho para la nueva columna (80 después de 'Total muertes')
+    columnwidth=[25,150,80,80,80,75,75,65,65,65,80],  # ← un 80 más ✅
+
+    header=dict(
+        # Agrega 'Tasa x100k' después de 'Total muertes'
+        values=['#','Municipio','Pob 2024','Total muertes',
+                'Tasa x100k',                           # ← nueva columna ✅
+                '1ª causa','Contribuyente','% Hombre','% Mujer',
+                'AVPP prom','Índice'],
+        ...
+    ),
+    cells=dict(
+        values=[
+            list(range(1,len(top)+1)),
+            top['municipio'],
+            top['pob_2024'].apply(lambda x: f"{int(x):,}"),
+            top['dm2_cualquier'].apply(lambda x: f"{int(x):,}"),
+            top['tasa_anual_dm2'].apply(lambda x: f"{x:.1f}"),  # ← nueva fila ✅
+            top['dm2_basica'].apply(lambda x: f"{int(x):,}"),
+            top['dm2_contribuyente'].apply(lambda x: f"{int(x):,}"),
+            top['pct_hombre'].apply(lambda x: f"{x:.0f}%"),
+            top['pct_mujer'].apply(lambda x: f"{x:.0f}%"),
+            top['avpp_prom'].apply(lambda x: f"{x:.1f}"),
+            top['indice_calc'].apply(lambda x: f"{x:.4f}"),
+        ],
+        # Cambia el *10 a *11 porque ahora son 11 columnas
+        fill_color=[['#F0F7FF' if i%2==0 else 'white'
+                     for i in range(len(top))]]*11,  # ← 10 → 11 ✅
+        align=['center','left']+['center']*9,         # ← *8 → *9 ✅
+        height=26)
+)])
     fig_t.update_layout(margin=dict(l=0,r=0,t=10,b=0),height=330)
     st.plotly_chart(fig_t, use_container_width=True)
 
