@@ -152,18 +152,31 @@ with tab1:
         else:            return 'Más de 40,000'
     df['rango'] = df['pob_2024'].apply(rango_pob)
 
-    rango = st.radio(
-        "Filtrar por rango de población:",
-        ['Todos','0 — 10,000','10,001 — 20,000','20,001 — 40,000','Más de 40,000'],
-        horizontal=True
-    )
+   col_filtro, col_orden = st.columns([3,2])
+    with col_filtro:
+        rango = st.radio(
+            "Filtrar por rango de población:",
+            ['Todos','0 — 10,000','10,001 — 20,000','20,001 — 40,000','Más de 40,000'],
+            horizontal=True
+        )
+    with col_orden:
+        ordenar_por = st.selectbox(
+            "Ordenar Top 10 por:",
+            options=['indice_calc','tasa_anual_dm2','avpp_prom','pob_2024'],
+            format_func=lambda x: {
+                'indice_calc':   '📊 Índice de priorización',
+                'tasa_anual_dm2':'📈 Tasa cruda DM2',
+                'avpp_prom':     '⏱️ AVPP promedio',
+                'pob_2024':      '👥 Población'
+            }[x]
+        )
 
     if rango == 'Todos':
         sub = df.dropna(subset=['indice_calc'])
     else:
         sub = df[df['rango']==rango].dropna(subset=['indice_calc'])
 
-    top = sub.nlargest(10,'indice_calc').reset_index(drop=True)
+    top = sub.nlargest(10, ordenar_por).reset_index(drop=True)
 
     # Tabla
     fig_t = go.Figure(data=[go.Table(
