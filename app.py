@@ -348,7 +348,7 @@ with tab2:
             fillcolor='rgba(112,173,71,0.15)',
             line=dict(color='#70AD47',width=2,dash='dash')))
         fig_r.update_layout(
-            polar=dict(radialaxis=dict(visible=True,range=[0,0.4])),
+            polar=dict(radialaxis=dict(visible=True)),
             height=380,legend=dict(orientation='h',y=-0.15),
             margin=dict(l=30,r=30,t=30,b=50),
             font=dict(family='Calibri'))
