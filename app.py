@@ -141,7 +141,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ── TABS ──
-tab1, tab2 = st.tabs(["📊 Top 10 por Rango de Población", "🔍 Análisis por Municipio"])
+tab1, tab2 = st.tabs(["📊 Top 15 por Rango de Población", "🔍 Análisis por Municipio"])
 
 # ════════════════════════════
 # TAB 1 — TOP 10
