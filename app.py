@@ -152,7 +152,7 @@ with tab1:
         else:            return 'Más de 40,000'
     df['rango'] = df['pob_2024'].apply(rango_pob)
 
-   col_filtro, col_orden = st.columns([3,2])
+    col_filtro, col_orden = st.columns([3,2])
     with col_filtro:
         rango = st.radio(
             "Filtrar por rango de población:",
