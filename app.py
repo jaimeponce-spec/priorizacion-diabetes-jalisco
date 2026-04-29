@@ -164,10 +164,10 @@ with tab1:
             "Ordenar Top 10 por:",
             options=['indice_calc','tasa_anual_dm2','avpp_prom','pob_2024'],
             format_func=lambda x: {
-                'indice_calc':   '📊 Índice de priorización',
-                'tasa_anual_dm2':'📈 Tasa cruda DM2',
-                'avpp_prom':     '⏱️ AVPP promedio',
-                'pob_2024':      '👥 Población'
+                'indice_calc':    '📊 Índice de priorización',
+                'tasa_anual_dm2': '📈 Tasa cruda DM2',
+                'avpp_prom':      '⏱️ AVPP promedio',
+                'pob_2024':       '👥 Población'
             }[x]
         )
 
