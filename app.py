@@ -332,8 +332,8 @@ with tab2:
         name='Municipios'
     ))
     fig_mapa.add_trace(go.Scattermapbox(
-        lat=[coords[df_sel.iloc[0]['municipio']][0]],
-        lon=[coords[df_sel.iloc[0]['municipio']][1]],
+        lat=[df_sel.iloc[0]['latitud']],
+        lon=[df_sel.iloc[0]['longitud']],
         mode='markers+text',
         marker=dict(size=22, color='#FF0000',),
         text=[municipio],
