@@ -92,12 +92,30 @@ d5 = st.sidebar.slider("Peso D5 (%)", 0, 100, 5, 5)
 erc_w     = st.sidebar.slider("→ Razón ERC/DM2", 0, 100, 50, 10)
 contrib_w = st.sidebar.slider("→ % Contribuyente", 0, 100, 50, 10)
 
+# Validación dimensiones principales
 total = d1 + d2 + d3 + d4 + d5
-color_total = "green" if total == 100 else "red"
-st.sidebar.markdown(f"**Total D1-D5: :{color_total}[{total}%]**")
-if total != 100:
-    st.sidebar.warning(f"⚠️ Los pesos deben sumar 100% (actual: {total}%)")
+st.sidebar.markdown("---")
+if total == 100:
+    st.sidebar.success(f"✅ Total D1-D5: {total}%")
+else:
+    st.sidebar.error(f"❌ Total D1-D5: {total}% (debe ser 100%)")
 
+# Validación pesos internos
+tot_d1 = tasa_w + avpp_t_w
+tot_d3 = escol_w + derecho_w + ingreso_w + vuln_w + internet_w
+tot_d4 = dist_w + sin2do_w + densidad_w
+tot_d5 = erc_w + contrib_w
+
+errores = []
+if tot_d1 != 100: errores.append(f"D1 suma {tot_d1}%")
+if tot_d3 != 100: errores.append(f"D3 suma {tot_d3}%")
+if tot_d4 != 100: errores.append(f"D4 suma {tot_d4}%")
+if tot_d5 != 100: errores.append(f"D5 suma {tot_d5}%")
+
+if errores:
+    st.sidebar.error("❌ Pesos internos incorrectos:\n" + "\n".join(errores))
+else:
+    st.sidebar.success("✅ Pesos internos correctos")
 pesos = dict(
     d1=d1, tasa=tasa_w, avpp_t=avpp_t_w,
     d2=d2, avpp_p=avpp_p_w,
