@@ -318,8 +318,8 @@ with tab2:
 
     fig_mapa = go.Figure()
     fig_mapa.add_trace(go.Scattermapbox(
-        lat=[coords[m][0] for m in df_otros['municipio']],
-        lon=[coords[m][1] for m in df_otros['municipio']],
+        lat=df_otros['latitud'].tolist(),
+        lon=df_otros['longitud'].tolist(),
         mode='markers',
         marker=dict(size=8,
             color=df_otros['indice_calc'],
