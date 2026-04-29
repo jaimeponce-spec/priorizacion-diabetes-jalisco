@@ -178,11 +178,17 @@ with tab1:
             }[x]
         )
 
-    if rango == 'Todos':
-        sub = df.dropna(subset=['indice_calc'])
+    if filtro_dist == 'Menos de 150 km':
+        df_dist = df[df['distancia_gdl_km'] < 150]
+    elif filtro_dist == 'Más de 150 km':
+        df_dist = df[df['distancia_gdl_km'] >= 150]
     else:
-        sub = df[df['rango']==rango].dropna(subset=['indice_calc'])
+        df_dist = df
 
+    if rango == 'Todos':
+        sub = df_dist.dropna(subset=['indice_calc'])
+    else:
+        sub = df_dist[df_dist['rango']==rango].dropna(subset=['indice_calc'])
     top = sub.nlargest(15, ordenar_por).reset_index(drop=True)
 
     # Tabla
