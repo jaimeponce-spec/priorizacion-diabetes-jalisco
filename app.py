@@ -178,7 +178,7 @@ with tab1:
     else:
         sub = df[df['rango']==rango].dropna(subset=['indice_calc'])
 
-    top = sub.nlargest(10, ordenar_por).reset_index(drop=True)
+    top = sub.nlargest(15, ordenar_por).reset_index(drop=True)
 
     # Tabla
     fig_t = go.Figure(data=[go.Table(
