@@ -164,7 +164,7 @@ with tab1:
     with col_filtro:
         rango = st.radio(
             "Filtrar por rango de población:",
-            ['Todos','0 — 10,000','10,001 — 20,000','20,001 — 40,000','Más de 40,000'],
+            ['Todos','0 — 10,000','10,001 — 20,000','20,001 — 30,000','30,001 — 40,000','Más de 40,000'],
             horizontal=True
         )
     with col_orden:
