@@ -373,8 +373,8 @@ with tab2:
             line=dict(color='#70AD47',width=2,dash='dash')))
         fig_r.update_layout(
             polar=dict(radialaxis=dict(visible=True)),
-            height=380,legend=dict(orientation='h',y=-0.15),
-            margin=dict(l=30,r=30,t=30,b=50),
+            height=500,legend=dict(orientation='h',y=-0.1),
+            margin=dict(l=40,r=40,t=40,b=60),
             font=dict(family='Calibri'))
         st.plotly_chart(fig_r, use_container_width=True)
 
