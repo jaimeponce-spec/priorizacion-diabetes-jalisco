@@ -194,11 +194,31 @@ with tab1:
 
     # Tabla
     fig_t = go.Figure(data=[go.Table(
-        columnwidth=[25,150,80,80,80,75,75,65,65,65,80],
+        columnwidth=[25,150,80,90,90,100,80,80],
         header=dict(
-            values=['#','Municipio','Pob 2024','Total muertes',
-                    'Tasa x100k','1ª causa','Contribuyente','% Hombre','% Mujer',
+            values=['#','Municipio','Pob 2024','Muertes totales',
+                    'Tasa cruda*','Tasa ajustada SSJ**',
                     'AVPP prom','Índice'],
+            fill_color='#1F4E79',
+            font=dict(color='white',size=11,family='Calibri'),
+            align='center', height=32),
+        cells=dict(
+            values=[
+                list(range(1,len(top)+1)),
+                top['municipio'],
+                top['pob_2024'].apply(lambda x: f"{int(x):,}"),
+                top['dm2_total_con_pandemia'].apply(lambda x: f"{int(x):,}"),
+                top['tasa_cruda_comparable'].apply(lambda x: f"{x:.1f}"),
+                top['tasa_aj_general_2025'].apply(lambda x: f"{x:.1f}"),
+                top['avpp_prom'].apply(lambda x: f"{x:.1f}"),
+                top['indice_calc'].apply(lambda x: f"{x:.4f}"),
+            ],
+            fill_color=[['#F0F7FF' if i%2==0 else 'white'
+                         for i in range(len(top))]]*8,
+            font=dict(size=11,family='Calibri'),
+            align=['center','left']+['center']*6,
+            height=26)
+    )])
             fill_color='#1F4E79',
             font=dict(color='white',size=11,family='Calibri'),
             align='center', height=32),
