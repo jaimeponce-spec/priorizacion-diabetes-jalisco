@@ -21,6 +21,12 @@ def cargar_datos():
 
 df_original = cargar_datos()
 
+@st.cache_data
+def cargar_clues():
+    return pd.read_csv('clues_jalisco_activo.csv')
+
+df_clues = cargar_clues()
+
 # ── NORMALIZACIÓN ──
 def norm(serie, invertir=False):
     mn, mx = serie.min(), serie.max()
