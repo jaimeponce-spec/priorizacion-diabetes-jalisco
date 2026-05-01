@@ -224,15 +224,11 @@ with tab1:
     col1, col2 = st.columns(2)
     with col1:
         fig_m = go.Figure()
-        fig_m.add_trace(go.Bar(name='1ª causa',x=top['municipio'],
-            y=top['dm2_basica'],marker_color='#1F4E79',
-            text=top['dm2_basica'].astype(int),textposition='inside',
-            textfont=dict(color='white',size=9)))
-        fig_m.add_trace(go.Bar(name='Contribuyente',x=top['municipio'],
-            y=top['dm2_contribuyente'],marker_color='#70AD47',
-            text=top['dm2_contribuyente'].astype(int),textposition='inside',
-            textfont=dict(color='white',size=9)))
-        fig_m.update_layout(barmode='stack',title='Muertes: 1ª causa vs contribuyente',
+        fig_m.add_trace(go.Bar(name='Muertes totales',x=top['municipio'],
+            y=top['dm2_total_con_pandemia'],marker_color='#1F4E79',
+            text=top['dm2_total_con_pandemia'].astype(int),textposition='outside',
+            textfont=dict(size=9)))
+        fig_m.update_layout(title='Muertes totales DM2 (2018-2025)',
             xaxis_tickangle=-40,legend=dict(orientation='h',y=1.1),
             height=380,margin=dict(l=10,r=10,t=55,b=100),font=dict(family='Calibri'))
         st.plotly_chart(fig_m, use_container_width=True)
