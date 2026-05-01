@@ -377,6 +377,8 @@ with tab2:
             font=dict(family='Calibri'))
         st.plotly_chart(fig_r, use_container_width=True)
 
+    expandir = st.toggle("📂 Expandir todos los indicadores", value=False)
+    
     with col_cards:
         EXPL = {
             'd1':('D1 — Carga de enfermedad','#1F4E79',
@@ -409,7 +411,7 @@ with tab2:
             diff = dv - dp
             arrow = '▲' if diff > 0 else '▼'
             cdiff = 'red' if diff > 0 else 'green'
-            with st.expander(f"{nombre} — Score: {dv:.4f}  {arrow} {abs(diff):.4f} vs Jalisco"):
+            with st.expander(f"{nombre} — Score: {dv:.4f}  {arrow} {abs(diff):.4f} vs Jalisco", expanded=expandir):
                 st.caption(desc)
                 for vn,vc,vf in variables:
                     if vc in row.index and pd.notna(row[vc]):
