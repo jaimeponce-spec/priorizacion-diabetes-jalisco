@@ -417,7 +417,19 @@ with tab2:
                         col_v1.write(vn)
                         col_v2.write(f"**{vf.format(row[vc])}**")
                         col_v3.caption(f"prom: {vf.format(prom[vc])}")
-
+# Unidades de salud
+    st.markdown("### 🏥 Unidades de Salud en el Municipio")
+    clues_mun = df_clues[df_clues['municipio'].str.upper() == municipio.upper()][[
+        'nombre_unidad','tipologia','clave_ins','nivel_atencion','tipo_establecimiento'
+    ]].reset_index(drop=True)
+    clues_mun.index += 1
+    clues_mun.columns = ['Nombre unidad','Tipología','Institución','Nivel atención','Tipo']
+    if len(clues_mun) > 0:
+        st.dataframe(clues_mun, use_container_width=True, height=250)
+        st.caption(f"Total: {len(clues_mun)} unidades en operación — Fuente: CLUES marzo 2026")
+    else:
+        st.info("No se encontraron unidades registradas para este municipio.")
+        
     enigh = (f"{int(row['enigh_hogares'])} hogares en muestra"
              if pd.notna(row.get('enigh_hogares')) else "Sin cobertura municipal")
     st.caption(f"📋 ENIGH: {row.get('enigh_cobertura','n/d')} — {enigh}")
