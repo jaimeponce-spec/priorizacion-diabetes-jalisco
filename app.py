@@ -219,7 +219,7 @@ with tab1:
     )])
     fig_t.update_layout(margin=dict(l=0,r=0,t=10,b=0),height=330)
     st.plotly_chart(fig_t, use_container_width=True)
-    st.caption("* Tasa cruda: muertes DM2 (causa básica + contribuyente) x100k hab, promedio anual 2018-2025 excl. 2020-2021 | ** Tasa ajustada por edad SSJ 2025, incluye 2020-2021")
+    st.caption("* Tasa ajustada por edad SSJ 2025, incluye todos los años 2018-2025")
     
     col1, col2 = st.columns(2)
     with col1:
