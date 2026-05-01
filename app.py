@@ -357,7 +357,8 @@ with tab2:
     vm = [row[d] for d in dims]
     vj = [prom[d] for d in dims]
 
-    col_r, col_cards = st.columns([1,2])
+    expandir = st.toggle("📂 Expandir todos los indicadores", value=False)
+    col_r, col_cards = st.columns([1,1])
     with col_r:
         fig_r = go.Figure()
         fig_r.add_trace(go.Scatterpolar(
@@ -377,7 +378,6 @@ with tab2:
             font=dict(family='Calibri'))
         st.plotly_chart(fig_r, use_container_width=True)
 
-    expandir = st.toggle("📂 Expandir todos los indicadores", value=False)
     
     with col_cards:
         EXPL = {
