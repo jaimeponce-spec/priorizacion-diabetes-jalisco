@@ -435,6 +435,124 @@ with tab2:
     enigh = (f"{int(row['enigh_hogares'])} hogares en muestra"
              if pd.notna(row.get('enigh_hogares')) else "Sin cobertura municipal")
     st.caption(f"📋 ENIGH: {row.get('enigh_cobertura','n/d')} — {enigh}")
+    
+# ════════════════════════════
+# TAB 3 — METODOLOGÍA
+# ════════════════════════════
+with tab3:
+    st.markdown("""
+## Introducción
 
+Sistema de Inteligencia Epidemiológica Predictiva para la priorización municipal de intervenciones en diabetes mellitus tipo 2 (DM2) en Jalisco. Desarrollado por FUNSALUD, utiliza datos abiertos de mortalidad, encuestas de hogares y registros de unidades de salud para responder la pregunta: **¿Qué municipios tienen mayor carga de enfermedad combinada con mayor vulnerabilidad y menor acceso a servicios de salud?**
+
+---
+
+## Fuentes de datos
+
+- **Mortalidad**: Base de defunciones SSJ 2018-2025. Los años 2020-2021 se excluyen del cálculo de AVPP y de la tasa cruda utilizada en el índice por el efecto distorsionador de la pandemia COVID-19. Las muertes totales y la tasa ajustada SSJ sí incluyen esos años para mantener comparabilidad con el reporte oficial. Fuente: INEGI-DEFUN.
+- **Población**: Proyecciones municipales CONAPO 2024.
+- **Vulnerabilidad social**: Encuesta Nacional de Ingresos y Gastos de los Hogares (ENIGH) 2016-2024, cinco ediciones.
+- **Tasas ajustadas**: Reporte de Mortalidad por Diabetes Mellitus SSJ 2018-2025 (abril 2026).
+- **Unidades de salud**: Catálogo de Clave Única de Establecimientos de Salud (CLUES), marzo 2026.
+
+---
+
+## Variables principales
+
+- **Muertes totales**: Defunciones donde DM2 fue causa básica o contribuyente, período 2018-2025 completo incluyendo pandemia.
+- **Tasa ajustada por edad SSJ**: Tasa estandarizada por edad calculada por la SSJ sobre 2018-2025, expresada por 100,000 habitantes. Permite comparar municipios eliminando el efecto de diferencias en la estructura de edad de su población.
+- **AVPP promedio**: Años de Vida Perdidos Prematuramente por persona fallecida. Se calcula como la diferencia entre la esperanza de vida CONAPO y la edad al momento de la muerte, promediada entre todos los fallecidos del municipio. Un AVPP alto indica que la población muere joven. Período 2018-2025 excluyendo 2020-2021.
+
+---
+
+## Fórmulas
+
+**Tasa cruda** (usada internamente en el índice):
+
+    Tasa cruda = (Muertes DM2 causa básica / Población 2024) × 100,000 / 6 años
+
+**AVPP por persona**:
+
+    AVPP_i = Esperanza de vida CONAPO (sexo, año) − Edad al fallecimiento
+    AVPP promedio municipal = Σ AVPP_i / n fallecidos
+
+**Normalización**:
+
+    Valor normalizado = (X − Mínimo) / (Máximo − Mínimo)
+
+Para variables donde un valor bajo es peor (ingreso, internet), se invierte: 1 − valor normalizado.
+
+**Índice de priorización**:
+
+    Índice = D1 × w1 + D2 × w2 + D3 × w3 + D4 × w4 + D5 × w5
+
+---
+
+## Dimensiones del índice
+
+El índice ordena municipios de mayor a menor prioridad. Un valor más alto significa que ese municipio combina mayor carga de enfermedad, mayor vulnerabilidad y menor acceso. **Aumentar el peso de una dimensión hace que los municipios con valores altos en esa dimensión suban en el ranking.**
+
+### D1 — Carga de enfermedad (default 35%)
+Mide cuántas muertes ocurren y cuántos años de vida se pierden en total. Darle más peso prioriza los municipios donde el problema ya es grave en términos absolutos.
+- *Tasa cruda alta* → más muertes por habitante → mayor prioridad
+- *AVPP total alto* → más años de vida perdidos acumulados → mayor prioridad
+
+### D2 — Prematuridad (default 20%)
+Mide qué tan joven muere la población. Darle más peso prioriza municipios donde la diabetes mata a personas jóvenes, con mayor impacto económico y familiar.
+- *AVPP promedio alto* → mueren más jóvenes → mayor prioridad
+
+### D3 — Vulnerabilidad social (default 20%)
+Mide las condiciones estructurales que dificultan el acceso y control de la enfermedad. Darle más peso prioriza municipios donde las barreras sociales son mayores.
+- *% sin escolaridad alto* → mayor prioridad
+- *% sin derechohabiencia alto* → mayor prioridad
+- *Ingreso bajo* → mayor prioridad
+- *Vulnerabilidad habitacional alta* → mayor prioridad
+- *% sin internet alto* → mayor prioridad
+
+### D4 — Acceso a servicios (default 20%)
+Principal decisión estratégica del índice. Un D4 alto significa mayor necesidad pero también mayor dificultad para intervenir. **Aumentar su peso prioriza municipios más aislados. Reducirlo favorece municipios con capacidad instalada donde el impacto puede ser más inmediato.**
+- *Distancia a GDL alta* → más aislado → mayor prioridad
+- *Sin unidades de segundo nivel* → sin hospitalización → mayor prioridad
+- *Densidad de unidades baja* → menos cobertura → mayor prioridad
+
+### D5 — Complejidad del trazador (default 5%)
+Mide la progresión hacia complicaciones graves. Darle más peso prioriza municipios donde la enfermedad ya está en etapas avanzadas.
+- *Razón ERC/DM2 alta* → más complicaciones renales → mayor prioridad
+- *% causa contribuyente alto* → diabetes como comorbilidad frecuente → mayor prioridad
+
+---
+
+## Notas técnicas
+
+- Los años 2020-2021 se excluyen del AVPP y la tasa cruda del índice. Durante la pandemia murieron personas mayores de alto riesgo que normalmente habrían fallecido después, lo que paradójicamente redujo el AVPP en esos años al elevar la edad promedio de fallecimiento.
+- Para municipios con población menor a 50,000 habitantes la ENIGH no tiene cobertura municipal directa. Se utilizan estimaciones estatales como aproximación, indicado en la app como "Sin cobertura municipal".
+- La normalización es relativa al conjunto de 125 municipios de Jalisco — un valor de 0.8 no significa 80% en términos absolutos, sino que ese municipio está en el 80% superior del estado en esa variable.
+- Las unidades de salud mostradas corresponden a establecimientos en operación según CLUES marzo 2026, excluyendo unidades de apoyo.
+
+---
+
+## Declaración de uso de Inteligencia Artificial y herramientas digitales
+
+De acuerdo con las recomendaciones de la OMS sobre ética e inteligencia artificial en salud (2021) y las directrices de la UNESCO sobre IA (2021), se declara que:
+
+**Herramientas utilizadas**
+- **Claude (Anthropic)**: Asistencia en programación, análisis de datos y documentación metodológica.
+- **Google Colab**: Entorno de procesamiento y análisis de datos.
+- **GitHub (plan libre)**: Control de versiones y repositorio del código fuente.
+- **Streamlit (plan libre)**: Despliegue y visualización de la aplicación.
+
+**Datos**
+Todos los datos utilizados son de acceso público, disponibles en portales institucionales abiertos (INEGI, CONAPO, SSJ, CLUES). No se utilizaron datos de identificación personal, datos clínicos individuales ni información sensible. El procesamiento cumple con la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP) y la normativa aplicable en México, dado que toda la información es agregada a nivel municipal y no permite identificar a personas físicas.
+
+**Supervisión humana**
+Todas las decisiones metodológicas, interpretaciones epidemiológicas y validaciones de resultados fueron realizadas y aprobadas por el equipo técnico de FUNSALUD. La IA se utilizó exclusivamente como herramienta de soporte técnico.
+
+**Responsabilidad**
+Los autores asumen plena responsabilidad por el contenido, metodología y conclusiones de esta herramienta.
+
+**No reemplaza criterio profesional**
+Esta herramienta es un apoyo para la toma de decisiones en salud pública y no sustituye el juicio clínico ni epidemiológico de los profesionales de salud.
+    """)
+    
 st.markdown("---")
 st.caption("Fuentes: Base Mortalidad Jalisco SSJ 2018-2025 (excl. 2020-2021) | INEGI-DEFUN | CONAPO | ENIGH 2016-2024 | CLUES marzo 2026")
