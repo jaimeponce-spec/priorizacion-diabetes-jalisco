@@ -169,12 +169,12 @@ with tab1:
     with col_orden:
         ordenar_por = st.selectbox(
             "Ordenar Top 10 por:",
-            options=['indice_calc','tasa_anual_dm2','avpp_prom','pob_2024'],
+            options=['indice_calc','tasa_aj_general_2025','avpp_prom','pob_2024'],
             format_func=lambda x: {
-                'indice_calc':    '📊 Índice de priorización',
-                'tasa_anual_dm2': '📈 Tasa cruda DM2',
-                'avpp_prom':      '⏱️ AVPP promedio',
-                'pob_2024':       '👥 Población'
+                'indice_calc':         '📊 Índice de priorización',
+                'tasa_aj_general_2025':'📈 Tasa ajustada SSJ',
+                'avpp_prom':           '⏱️ AVPP promedio',
+                'pob_2024':            '👥 Población'
             }[x]
         )
 
