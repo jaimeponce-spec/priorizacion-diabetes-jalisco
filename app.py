@@ -207,15 +207,14 @@ with tab1:
                 top['municipio'],
                 top['pob_2024'].apply(lambda x: f"{int(x):,}"),
                 top['dm2_total_con_pandemia'].apply(lambda x: f"{int(x):,}"),
-                top['tasa_cruda_comparable'].apply(lambda x: f"{x:.1f}"),
                 top['tasa_aj_general_2025'].apply(lambda x: f"{x:.1f}"),
                 top['avpp_prom'].apply(lambda x: f"{x:.1f}"),
                 top['indice_calc'].apply(lambda x: f"{x:.4f}"),
             ],
             fill_color=[['#F0F7FF' if i%2==0 else 'white'
-                         for i in range(len(top))]]*8,
+                         for i in range(len(top))]]*7,
             font=dict(size=11,family='Calibri'),
-            align=['center','left']+['center']*6,
+            align=['center','left']+['center']*5,
             height=26)
     )])
     fig_t.update_layout(margin=dict(l=0,r=0,t=10,b=0),height=330)
