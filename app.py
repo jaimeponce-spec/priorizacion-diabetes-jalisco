@@ -219,32 +219,7 @@ with tab1:
             align=['center','left']+['center']*6,
             height=26)
     )])
-            fill_color='#1F4E79',
-            font=dict(color='white',size=11,family='Calibri'),
-            align='center', height=32),
-        cells=dict(
-            values=[
-                list(range(1,len(top)+1)),
-                top['municipio'],
-                top['pob_2024'].apply(lambda x: f"{int(x):,}"),
-                top['dm2_cualquier'].apply(lambda x: f"{int(x):,}"),
-                top['tasa_anual_dm2'].apply(lambda x: f"{x:.1f}"),
-                top['dm2_basica'].apply(lambda x: f"{int(x):,}"),
-                top['dm2_contribuyente'].apply(lambda x: f"{int(x):,}"),
-                top['pct_hombre'].apply(lambda x: f"{x:.0f}%"),
-                top['pct_mujer'].apply(lambda x: f"{x:.0f}%"),
-                top['avpp_prom'].apply(lambda x: f"{x:.1f}"),
-                top['indice_calc'].apply(lambda x: f"{x:.4f}"),
-            ],
-            fill_color=[['#F0F7FF' if i%2==0 else 'white'
-                         for i in range(len(top))]]*11,
-            font=dict(size=11,family='Calibri'),
-            align=['center','left']+['center']*9,
-            height=26)
-    )])
-    fig_t.update_layout(margin=dict(l=0,r=0,t=10,b=0),height=330)
-    st.plotly_chart(fig_t, use_container_width=True)
-    st.plotly_chart(fig_t, use_container_width=True)
+            st.plotly_chart(fig_t, use_container_width=True)
     st.caption("* Tasa cruda: muertes DM2 (causa básica + contribuyente) x100k hab, promedio anual 2018-2025 excl. 2020-2021 | ** Tasa ajustada por edad SSJ 2025, incluye 2020-2021")
     
     col1, col2 = st.columns(2)
