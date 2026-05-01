@@ -63,7 +63,6 @@ def recalcular_indice(df, pesos):
 # ── SIDEBAR: PESOS ──
 st.sidebar.image("logofunsalud.jpg", use_container_width=True)
 st.sidebar.markdown("## ⚙️ Pesos del índice")
-st.sidebar.markdown("## ⚙️ Pesos del índice")
 st.sidebar.markdown("---")
 
 st.sidebar.markdown("**D1 — Carga de enfermedad**")
