@@ -358,7 +358,7 @@ with tab2:
     vj = [prom[d] for d in dims]
 
     expandir = st.toggle("📂 Expandir todos los indicadores", value=False)
-    col_r, col_cards = st.columns([1,1])
+    col_r, col_cards = st.columns([3,2])
     with col_r:
         fig_r = go.Figure()
         fig_r.add_trace(go.Scatterpolar(
