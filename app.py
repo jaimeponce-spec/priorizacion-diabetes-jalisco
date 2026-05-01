@@ -193,10 +193,10 @@ with tab1:
 
     # Tabla
     fig_t = go.Figure(data=[go.Table(
-        columnwidth=[25,150,80,90,90,100,80,80],
+        columnwidth=[25,150,80,90,100,80,80],
         header=dict(
             values=['#','Municipio','Pob 2024','Muertes totales',
-                    'Tasa cruda*','Tasa ajustada SSJ**',
+                    'Tasa ajustada SSJ*',
                     'AVPP prom','Índice'],
             fill_color='#1F4E79',
             font=dict(color='white',size=11,family='Calibri'),
