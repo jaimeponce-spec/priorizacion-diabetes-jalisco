@@ -13,7 +13,7 @@ st.set_page_config(
 @st.cache_data
 def cargar_datos():
     df = pd.read_excel(
-        'priorizacion_municipios_jalisco_V28042026.xlsx',
+        'priorizacion_municipios_jalisco V28042026 (1).xlsx',
         sheet_name=0)
     df['dm2_contribuyente'] = df['dm2_cualquier'] - df['dm2_basica']
     df['pct_hombre'] = 100 - df['pct_mujer']
