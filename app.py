@@ -421,7 +421,11 @@ with tab2:
                         col_v3.caption(f"prom: {vf.format(prom[vc])}")
 # Unidades de salud
     st.markdown("### 🏥 Unidades de Salud en el Municipio")
-    clues_mun = df_clues[df_clues['municipio'].str.upper() == municipio.upper()][[
+    import unicodedata
+    def quitar_acentos(s):
+        return ''.join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')
+
+    clues_mun = df_clues[df_clues['municipio'].apply(lambda x: quitar_acentos(x.upper())) == quitar_acentos(municipio.upper())][[
         'nombre_unidad','tipologia','clave_ins','nivel_atencion','tipo_establecimiento'
     ]].reset_index(drop=True)
     clues_mun.index += 1
