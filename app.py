@@ -231,7 +231,7 @@ with tab1:
     top_descarga.columns = ['Municipio','Pob 2024','Muertes totales','Tasa ajustada SSJ','AVPP prom','Índice']
     st.download_button(
         label="⬇️ Descargar tabla como CSV",
-        data=top_descarga.to_csv(index=False).encode('utf-8'),
+        data=top_descarga.to_csv(index=False).encode('utf-8-sig'),
         file_name='top_municipios_jalisco.csv',
         mime='text/csv'
     )
