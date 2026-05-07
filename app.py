@@ -225,6 +225,17 @@ with tab1:
     )])
     fig_t.update_layout(margin=dict(l=0,r=0,t=10,b=0),height=330)
     st.plotly_chart(fig_t, use_container_width=True)
+    
+    # Botón de descarga
+    top_descarga = top[['municipio','pob_2024','dm2_total_con_pandemia','tasa_aj_general_2025','avpp_prom','indice_calc']].copy()
+    top_descarga.columns = ['Municipio','Pob 2024','Muertes totales','Tasa ajustada SSJ','AVPP prom','Índice']
+    st.download_button(
+        label="⬇️ Descargar tabla como CSV",
+        data=top_descarga.to_csv(index=False).encode('utf-8'),
+        file_name='top_municipios_jalisco.csv',
+        mime='text/csv'
+    )
+    
     st.caption("* Tasa ajustada por edad SSJ 2025, incluye todos los años 2018-2025")
     
     col1, col2 = st.columns(2)
